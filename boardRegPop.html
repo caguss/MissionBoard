@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>게시판 등록(Popup)</title>
+  <style>
+    :root{ --accent:#2563eb; --danger:#ef4444; --muted:#6b7280; }
+    *{ box-sizing:border-box; }
+    body{ margin:0; font-family:Inter,Segoe UI,Roboto,Arial,sans-serif; background:#f5f7fb; color:#0f172a; display:flex; align-items:center; justify-content:center; min-height:100vh; }
+    .popup-box{ width:560px; background:#fff; border-radius:14px; box-shadow:0 8px 30px rgba(16,24,40,0.12); padding:28px 32px; }
+    .popup-box h2{ margin:0 0 20px; font-size:1.1rem; color:#0f172a; }
+    .form-section{ background:#f8fafc; border:1px solid #e9eef5; border-radius:10px; padding:14px 16px; margin-bottom:12px; }
+    .form-section-title{ margin:0 0 12px; font-size:0.75rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.05em; }
+    .field-wrap{ display:flex; flex-direction:column; gap:5px; margin-bottom:10px; }
+    .field-wrap:last-child{ margin-bottom:0; }
+    .field-name{ font-size:0.78rem; font-weight:600; color:#374151; }
+    .field-wrap select, .field-wrap input, .field-wrap textarea{ width:100%; padding:9px 10px; border:1px solid #e6edf3; border-radius:8px; background:#fff; font-size:0.875rem; font-family:inherit; color:#0f172a; transition:border-color .15s; }
+    .field-wrap select:focus, .field-wrap input:focus, .field-wrap textarea:focus{ outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(37,99,235,0.08); }
+    .form-row.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .radio-group{ display:flex; gap:20px; padding:4px 0; }
+    .radio-item{ display:flex; align-items:center; gap:6px; cursor:pointer; font-size:0.875rem; color:#374151; }
+    .radio-item input[type="radio"]{ accent-color:var(--accent); width:16px; height:16px; cursor:pointer; }
+    .checkbox-group{ display:flex; flex-wrap:wrap; gap:8px 18px; padding:4px 0; }
+    .check-item{ display:flex; align-items:center; gap:6px; cursor:pointer; font-size:0.875rem; color:#374151; }
+    .check-item input[type="checkbox"]{ accent-color:var(--accent); width:15px; height:15px; cursor:pointer; }
+    .form-actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:16px; }
+    .btn-primary{ background:var(--accent); color:#fff; border:none; padding:9px 18px; border-radius:8px; cursor:pointer; font-size:0.875rem; font-family:inherit; }
+    .btn-cancel{ background:transparent; color:var(--muted); border:1px solid #e2e8f0; padding:9px 18px; border-radius:8px; cursor:pointer; font-size:0.875rem; font-family:inherit; }
+  </style>
+</head>
+<body>
+  <div class="popup-box">
+    <h2>게시판 등록(Popup)</h2>
+    <form id="popupPostForm">
+      <div class="form-section">
+        <p class="form-section-title">게시물 내용</p>
+        <div class="field-wrap">
+          <span class="field-name">제목</span>
+          <input id="popupTitle" placeholder="제목을 입력하세요" required>
+        </div>
+        <div class="field-wrap">
+          <span class="field-name">내용</span>
+          <textarea id="popupContent" placeholder="컨텐츠 내용을 입력하세요" required rows="5"></textarea>
+        </div>
+      </div>
+      <div class="form-section">
+        <p class="form-section-title">작성자 정보</p>
+        <div class="form-row two-col">
+          <div class="field-wrap">
+            <span class="field-name">성별</span>
+            <div class="radio-group">
+              <label class="radio-item"><input type="radio" name="popupSex" value="M" /><span>남</span></label>
+              <label class="radio-item"><input type="radio" name="popupSex" value="F" /><span>여</span></label>
+            </div>
+          </div>
+          <div class="field-wrap">
+            <span class="field-name">거주지</span>
+            <select id="popupCites">
+              <option value="">선택하세요</option>
+              <option value="01">서울특별시</option>
+              <option value="02">부산광역시</option>
+              <option value="03">대구광역시</option>
+              <option value="04">인천광역시</option>
+              <option value="05">광주광역시</option>
+              <option value="06">대전광역시</option>
+              <option value="07">울산광역시</option>
+              <option value="08">세종특별자치시</option>
+              <option value="09">경기도</option>
+              <option value="10">충청북도</option>
+              <option value="11">충청남도</option>
+              <option value="12">전라남도</option>
+              <option value="13">경상북도</option>
+              <option value="14">경상남도</option>
+              <option value="15">강원특별자치도</option>
+              <option value="16">전북특별자치도</option>
+              <option value="17">제주특별자치도</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-wrap">
+          <span class="field-name">좋아하는 과일</span>
+          <div class="checkbox-group">
+            <label class="check-item"><input type="checkbox" name="popupFruits" value="01" /><span>사과</span></label>
+            <label class="check-item"><input type="checkbox" name="popupFruits" value="02" /><span>바나나</span></label>
+            <label class="check-item"><input type="checkbox" name="popupFruits" value="03" /><span>파인애플</span></label>
+            <label class="check-item"><input type="checkbox" name="popupFruits" value="04" /><span>망고</span></label>
+            <label class="check-item"><input type="checkbox" name="popupFruits" value="05" /><span>애플망고</span></label>
+            <label class="check-item"><input type="checkbox" name="popupFruits" value="06" /><span>귤</span></label>
+            <label class="check-item"><input type="checkbox" name="popupFruits" value="07" /><span>천혜향</span></label>
+            <label class="check-item"><input type="checkbox" name="popupFruits" value="08" /><span>배</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">저장</button>
+        <button type="button" class="btn-cancel" onclick="window.close()">취소</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // 부모로부터 author 전달받기
+    const params = new URLSearchParams(window.location.search)
+    const author = params.get('author') || ''
+
+    document.getElementById('popupPostForm').addEventListener('submit', function(e) {
+      e.preventDefault()
+      const title = document.getElementById('popupTitle').value.trim()
+      const content = document.getElementById('popupContent').value.trim()
+      const sexEl = document.querySelector('input[name="popupSex"]:checked')
+      const cityOpt = document.getElementById('popupCites')
+      const fruitsEls = Array.from(document.querySelectorAll('input[name="popupFruits"]:checked'))
+
+      if (!title) return alert('제목을 입력하세요.')
+      if (!content) return alert('내용을 입력하세요.')
+      if (!sexEl) return alert('성별을 선택하세요.')
+      if (!fruitsEls.length) return alert('좋아하는 과일을 1개 이상 선택하세요.')
+      if (!cityOpt.value) return alert('거주지를 선택하세요.')
+
+      const data = {
+        author,
+        title,
+        content,
+        sex: sexEl.value,
+        city: cityOpt.options[cityOpt.selectedIndex].text,
+        fruits: fruitsEls.map(f => f.nextElementSibling.textContent.trim())
+      }
+
+      setTimeout(() => {
+        if (window.opener && typeof window.opener._qa_savePost === 'function') {
+          window.opener._qa_savePost(data)
+        }
+        alert('게시물이 정상적으로 등록되었습니다.')
+        window.close()
+      }, 400)
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>답변형 게시판 - HTML + JS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>답변형 게시판</h1>
+    <div class="controls">
+      <input id="search" placeholder="검색어로 게시물 검색" aria-label="검색">
+      <div id="loginUserDisplay" class="topbar-user-info hidden"></div>
+      <select id="topLoginUser" name="topLoginUser">
+        <option value="">로그인 사용자 선택</option>
+        <option value="hongildong">홍길동</option>
+        <option value="maeKang">강마에</option>
+        <option value="BTS">방탄소년단</option>
+        <option value="changJungIm">임창정</option>
+      </select>
+      <button id="newPostDivBtn" class="primary">게시판 등록(div)</button>
+      <button id="newPostPopupBtn" class="primary">게시판 등록(popup)</button>
+      <button id="newPostModalBtn" class="primary">게시판 등록(modal)</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="composer" class="composer hidden">
+      <h2 id="composerTitle">게시판 등록</h2>
+      <form id="postForm" novalidate>
+        <div class="form-section">
+          <p class="form-section-title">작성자 정보</p>
+          <div class="form-row two-col">
+            <div class="field-wrap">
+              <span class="field-name">로그인 사용자 <span id="loginUserBadge" class="user-badge"></span></span>
+              <select id="loginUser" name="loginUser" required>
+                <option value="">선택하세요</option>
+                <option value="hongildong">홍길동</option>
+                <option value="maeKang">강마에</option>
+                <option value="BTS">방탄소년단</option>
+                <option value="changJungIm">임창정</option>
+              </select>
+            </div>
+            <div class="field-wrap">
+              <span class="field-name">거주지</span>
+              <select id="cites">
+                <option value="">선택하세요</option>
+                <option value="01">서울특별시</option>
+                <option value="02">부산광역시</option>
+                <option value="03">대구광역시</option>
+                <option value="04">인천광역시</option>
+                <option value="05">광주광역시</option>
+                <option value="06">대전광역시</option>
+                <option value="07">울산광역시</option>
+                <option value="08">세종특별자치시</option>
+                <option value="09">경기도</option>
+                <option value="10">충청북도</option>
+                <option value="11">충청남도</option>
+                <option value="12">전라남도</option>
+                <option value="13">경상북도</option>
+                <option value="14">경상남도</option>
+                <option value="15">강원특별자치도</option>
+                <option value="16">전북특별자치도</option>
+                <option value="17">제주특별자치도</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field-wrap">
+              <span class="field-name">성별</span>
+              <div class="radio-group">
+                <label class="radio-item"><input type="radio" id="sexM" name="sex" value="M" /><span>남</span></label>
+                <label class="radio-item"><input type="radio" id="sexF" name="sex" value="F" /><span>여</span></label>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field-wrap">
+              <span class="field-name">좋아하는 과일</span>
+              <div class="checkbox-group">
+                <label class="check-item"><input type="checkbox" id="fruits1" name="fruits" value="01" /><span>사과</span></label>
+                <label class="check-item"><input type="checkbox" id="fruits2" name="fruits" value="02" /><span>바나나</span></label>
+                <label class="check-item"><input type="checkbox" id="fruits3" name="fruits" value="03" /><span>파인애플</span></label>
+                <label class="check-item"><input type="checkbox" id="fruits4" name="fruits" value="04" /><span>망고</span></label>
+                <label class="check-item"><input type="checkbox" id="fruits5" name="fruits" value="05" /><span>애플망고</span></label>
+                <label class="check-item"><input type="checkbox" id="fruits6" name="fruits" value="06" /><span>귤</span></label>
+                <label class="check-item"><input type="checkbox" id="fruits7" name="fruits" value="07" /><span>천혜향</span></label>
+                <label class="check-item"><input type="checkbox" id="fruits8" name="fruits" value="08" /><span>배</span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-section">
+          <p class="form-section-title">게시물 내용</p>
+          <div class="field-wrap">
+            <span class="field-name">제목</span>
+            <input id="postTitle" placeholder="제목을 입력하세요" required>
+          </div>
+          <div class="field-wrap">
+            <span class="field-name">내용</span>
+            <textarea id="postContent" placeholder="컨텐츠 내용을 입력하세요" required rows="6"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="primary">저장</button>
+          <button type="button" id="cancelBtn" class="secondary">취소</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Modal overlay -->
+    <div id="modalOverlay" class="modal-overlay hidden">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h2>게시판 등록(modal)</h2>
+          <button type="button" id="modalCloseBtn" class="modal-close-btn">닫기</button>
+        </div>
+        <div class="modal-body">
+          <form id="modalPostForm" novalidate>
+            <div class="form-section">
+              <p class="form-section-title">게시물 내용</p>
+              <div class="field-wrap">
+                <span class="field-name">제목</span>
+                <input id="modalPostTitle" placeholder="제목을 입력하세요" required>
+              </div>
+              <div class="field-wrap">
+                <span class="field-name">내용</span>
+                <textarea id="modalPostContent" placeholder="컨텐츠 내용을 입력하세요" required rows="5"></textarea>
+              </div>
+            </div>
+            <div class="form-section">
+              <p class="form-section-title">작성자 정보</p>
+              <div class="form-row two-col">
+                <div class="field-wrap">
+                  <span class="field-name">성별</span>
+                  <div class="radio-group">
+                    <label class="radio-item"><input type="radio" name="modalSex" value="M" /><span>남</span></label>
+                    <label class="radio-item"><input type="radio" name="modalSex" value="F" /><span>여</span></label>
+                  </div>
+                </div>
+                <div class="field-wrap">
+                  <span class="field-name">거주지</span>
+                  <select id="modalCites">
+                    <option value="">선택하세요</option>
+                    <option value="01">서울특별시</option>
+                    <option value="02">부산광역시</option>
+                    <option value="03">대구광역시</option>
+                    <option value="04">인천광역시</option>
+                    <option value="05">광주광역시</option>
+                    <option value="06">대전광역시</option>
+                    <option value="07">울산광역시</option>
+                    <option value="08">세종특별자치시</option>
+                    <option value="09">경기도</option>
+                    <option value="10">충청북도</option>
+                    <option value="11">충청남도</option>
+                    <option value="12">전라남도</option>
+                    <option value="13">경상북도</option>
+                    <option value="14">경상남도</option>
+                    <option value="15">강원특별자치도</option>
+                    <option value="16">전북특별자치도</option>
+                    <option value="17">제주특별자치도</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field-wrap">
+                <span class="field-name">좋아하는 과일</span>
+                <div class="checkbox-group">
+                  <label class="check-item"><input type="checkbox" name="modalFruits" value="01" /><span>사과</span></label>
+                  <label class="check-item"><input type="checkbox" name="modalFruits" value="02" /><span>바나나</span></label>
+                  <label class="check-item"><input type="checkbox" name="modalFruits" value="03" /><span>파인애플</span></label>
+                  <label class="check-item"><input type="checkbox" name="modalFruits" value="04" /><span>망고</span></label>
+                  <label class="check-item"><input type="checkbox" name="modalFruits" value="05" /><span>애플망고</span></label>
+                  <label class="check-item"><input type="checkbox" name="modalFruits" value="06" /><span>귤</span></label>
+                  <label class="check-item"><input type="checkbox" name="modalFruits" value="07" /><span>천혜향</span></label>
+                  <label class="check-item"><input type="checkbox" name="modalFruits" value="08" /><span>배</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="primary">저장</button>
+              <button type="button" id="modalCancelBtn" class="secondary">취소</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <section class="posts-section">
+      <div class="list-controls">
+        <label>정렬:
+          <select id="sortSelect">
+            <option value="new">최신순</option>
+            <option value="old">오래된순</option>
+          </select>
+        </label>
+      </div>
+      <div class="table-wrapper">
+        <table class="posts-table">
+          <thead>
+            <tr>
+              <th class="col-num">번호</th>
+              <th class="col-title">제목</th>
+              <th class="col-content">내용</th>
+              <th class="col-author">작성자</th>
+              <th class="col-sex">성별</th>
+              <th class="col-city">거주지</th>
+              <th class="col-fruits">좋아하는 과일</th>
+              <th class="col-date">작성날짜</th>
+              <th class="col-actions">삭제/수정</th>
+            </tr>
+          </thead>
+          <tbody id="posts"></tbody>
+        </table>
+      </div>
+      <div id="emptyState" class="empty">아직 작성된 게시물이 없습니다. 새 글을 작성해보세요.</div>
+    </section>
+  </main>
+
+  <template id="postTemplate">
+    <tr class="post-row">
+      <td class="col-num"></td>
+      <td class="col-title"></td>
+      <td class="col-content"></td>
+      <td class="col-author"></td>
+      <td class="col-sex"></td>
+      <td class="col-city"></td>
+      <td class="col-fruits"></td>
+      <td class="col-date"><time class="created"></time></td>
+      <td class="col-actions">
+        <button class="delete">삭제하기</button>
+        <button class="edit">수정하기</button>
+        <button class="reply">댓글달기</button>
+      </td>
+    </tr>
+  </template>
+
+  <script src="utils.js" defer></script>
+  <script src="storage.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
