@@ -6,6 +6,25 @@
 html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#0f172a}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:linear-gradient(90deg,#fff,#f8fafc);box-shadow:0 2px 6px rgba(12,15,20,0.04)}
 .topbar h1{margin:0;font-size:1.125rem}
+
+/* 사이트 제목 스타일 */
+.site-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--accent);           /* '미션게시판' 기본 색상 */
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+/* '찬석의' 소제목 — 보라색, 더 작고 가볍게 */
+.site-title-sub {
+  font-size: 0.78em;
+  font-weight: 500;
+  color: #7c3aed;
+}
 .controls{display:flex;gap:10px;align-items:center}
 .controls input{padding:8px 12px;border:1px solid #e6edf3;border-radius:8px;min-width:200px}
 .primary{background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-family:inherit}
